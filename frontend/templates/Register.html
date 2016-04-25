@@ -2,8 +2,11 @@
     <h1>{{headerTitle}}</h1>
 </header>
 
-<div>
-    <form action="" method="post">
+<div ng-swipe-Left="formprogress.continue()" ng-swipe-Right="formprogress.goBack()" >
+
+    <span class="fa fa-chevron-left"  data-ng-hide="formprogress.page == 1"></span>
+
+    <form action="../backend/handle-request.php/register" method="post" class="swipeable">
         <fieldset data-ng-show="formprogress.page == 1">
             <label class="form-group">First name</label>
             <input type="text" class="form-control " data-ng-model="persoon.firstname" placeholder="first name">
@@ -26,7 +29,7 @@
         <fieldset data-ng-show="formprogress.page == 3">
             <label>Gender</label>
             <div class="mradio">
-                <input type="radio" id="sir" name="gender">
+                <input type="radio" id="sir" name="gender" checked>
                 <label for="sir">Sir</label>
             </div>
             <div class="mradio">
@@ -44,4 +47,7 @@
             <button class="btn btn-block btn-danger " data-ng-click="print($event)">Cancel</button>
         </div>
     </form>
+
+
+    <span class="fa fa-chevron-right" data-ng-hide="formprogress.page == 3"></span>
 </div>

@@ -3,7 +3,6 @@ body{
     padding: 0 5px;
     background: url("../images/connected.jpg") no-repeat;
     background-size:  100% auto;
-
 }
 
 header{
@@ -41,13 +40,60 @@ button.fa.fa-reorder{
     left: 5px;
 }
 .bottom{
-    bottom: 5px;
+    bottom: 15px;
 }
 
 ng-view{
     height: 100%;
     width: 100%;
 }
+.swipeable{
+    padding: 0 3%
+
+}
+span.fa.fa-chevron-left, .fa.fa-chevron-right{
+    position: absolute;
+    top: 50%;
+
+    color: white;
+}
+span.fa.fa-chevron-left{
+    left: 0;
+}
+span.fa.fa-chevron-right{
+    right: 0;
+}
+
+.socialmedia{
+    background-color: white;
+    opacity: 0.7;
+    padding: 1%;
+    border-radius: 5px;
+}
+.socialmedia img{
+    display: inline-block;
+    width: 20%;
+    height: auto;
+    margin: 2% 0 0 5%;
+}
+.socialmedia h2{
+    display: inline-block;
+    color: black;
+    margin-left: 5%;
+}
+.socialmedia > .content{
+    border: #dddddd solid 2px;
+    opacity: 1.0;
+}
+
+.content p {
+    color: black;
+}
+
+
+
+
+
 
 
 /* ANIMATIONS*/

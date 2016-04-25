@@ -3,11 +3,13 @@
     <button class="fa fa-reorder region top right"></button>
 </header>
 
-<div class="socialmedia">
-    <img src="{{media.img}}">
-    <h2>{{media.title}}</h2>
+<div  ng-swipe-left="swipeLeft()">
+    <div class="socialmedia">
+        <img src="{{media.img}}">
+        <h2>{{media.title}}</h2>
 
-    <div class="feed">
+        <div class="content">
             display feeds here
+        </div>
     </div>
 </div>

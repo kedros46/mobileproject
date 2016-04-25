@@ -1,0 +1,76 @@
+/*spacing*/
+.mradio, .mcheck{
+    text-align: left;
+    padding: 10px 0 5px 10px;
+    margin-bottom: 10px;
+}
+/* hide input */
+.mradio input[type="radio"],
+.mcheck input[type="checkbox"] {
+    display: none;
+}
+
+/* style label */
+.mradio input[type="radio"] ~ label,
+.mcheck input[type="checkbox"] ~ label {
+    display: block;
+    position: relative;
+    line-height: 2.5em;
+    text-indent: 3.25em;
+    margin-top: 2em;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    margin: 0;
+}
+
+.mradio input[type="radio"] ~ label:before,
+.mcheck input[type="checkbox"] ~ label:before {
+    position: absolute;
+    display: block;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    content: '';
+    width: 2.5em;
+    background: #D1D3D4;
+    border-radius: 3px 0 0 3px;
+}
+
+/* toggle hover */
+.mradio input[type="radio"]:hover:not(:checked) ~ label:before,
+.check input[type="checkbox"]:hover:not(:checked) ~ label:before{
+    content:'\2714';
+    text-indent: .9em;
+    color: #C2C2C2;
+}
+
+.mradio input[type="radio"]:hover:not(:checked) ~ label,
+.mcheck input[type="checkbox"]:hover:not(:checked) ~ label,
+{
+    color: #888;
+}
+
+/* toggle on */
+.mradio input[type="radio"]:checked ~ label:before,
+.mcheck input[type="checkbox"]:checked ~ label:before{
+    content:'\2714';
+    text-indent: .9em;
+    color: #9CE2AE;
+    background-color: #2299ff;
+}
+
+.mradio input[type="radio"]:checked ~ label,
+.mcheck input[type="checkbox"]:checked ~ label{
+    color: #777;
+}
+
+/* radio focus */
+.mradio input[type="radio"]:focus ~ label:before,
+.mcheck input[type="checkbox"]:focus ~ label:before{
+    box-shadow: 0 0 0 3px #999;
+}

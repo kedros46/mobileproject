@@ -3,7 +3,8 @@
  */
 
 
-var app = angular.module("myapp", ["ngAnimate", "ngRoute", "ngSanitize", "mobile-angular-ui"]);
+var app = angular.module("myapp",
+    ["ngAnimate", "ngRoute", "ngSanitize", "mobile-angular-ui", "mobile-angular-ui.gestures"]);
 
 //need ngTouch for swipe
 
@@ -17,11 +18,14 @@ app.config(["$routeProvider", "$locationProvider",
         templateUrl: "templates/Register.html",
         controller: "registerCtrl"
     }).when("/login", {
-        templateUrl: "templates/login.html"
+        templateUrl: "templates/login.html",
+        controller: "loginCtrl"
     }).when("/myMedia", {
-        templateUrl: "templates/myMedia.html"
+        templateUrl: "templates/myMedia.html",
+        controller: "mymedia"
     }).when("/newMedia", {
-        templateUrl: "templates/newMedia"
+        templateUrl: "templates/NewMedia.html",
+        controller: "newmedia"
     }).when("", {
         templateUrl: "templates/"
     })
