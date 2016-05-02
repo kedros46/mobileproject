@@ -93,13 +93,18 @@ switch($page) {
                 break;
                 break;
             case 'GET':
-                $params = array('id' => htmlentities($_POST["id"]));
+
+                $person_id = explode ('/', $_SERVER['PATH_INFO']);
+                if(isset($person_id[2])){
+                    $person_id = $person_id[2];
+                }
+
                 try {
                     $sql = "SELECT media.* FROM media JOIN user2media on media.id = user2media.mediaid WHERE user2media.userid = :id";
-
+                    $params = array(":id" => $person_id);
                     $stmt = $db->prepare($sql);
 
-                    if ($stmt->execute(array(":id" => $params["id"])) !== false) {
+                    if ($stmt->execute($params) !== false) {
                         echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
                     } else {
                         return false;
@@ -112,13 +117,20 @@ switch($page) {
     case "newmedia":
         switch ($_SERVER['REQUEST_METHOD']) {
             case 'GET':
-                $params = array('id' => htmlentities($_POST["id"]));
+
+                $person_id = explode ('/', $_SERVER['PATH_INFO']);
+                if(isset($person_id[2])){
+                    $person_id = $person_id[2];
+                }
+
                 try {
                     $sql = "SELECT * FROM media WHERE NOT EXISTS (SELECT * FROM user2media JOIN media on user2media.mediaid = media.id WHERE user2media.userid = :id)";
+                    //always returns empty...
 
+                    $params = array('id' => $person_id);
                     $stmt = $db->prepare($sql);
 
-                    if ($stmt->execute(array(":id" => $params["id"])) !== false) {
+                    if ($stmt->execute($params) !== false) {
                         echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
                     } else {
                         return false;

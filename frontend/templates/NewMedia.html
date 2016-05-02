@@ -1,9 +1,11 @@
 <header class="text-center">
     <h1>{{headerTitle}}</h1>
-    <button class="fa fa-reorder region top right"></button>
+    <button class="fa fa-reorder region top right" data-ng-click="openMenu()"></button>
 </header>
 
-<div class="socialmedia">
+<p><input type="text" placeholder="search" name="search" ><button class="fa fa-search" style="color: black"></button></p>
+
+<div class="socialmedia" data-ng-init="loadNewMedia()">
     <img src="{{media.img}}">
     <h2>{{media.title}}</h2>
 
@@ -12,6 +14,16 @@
     </div>
 
     <footer>
-        <button class="btn btn-primary btn-block">Opslaan</button>
+        <button class="btn btn-primary btn-block" data-ng-show="media.id != -1">Opslaan</button>
     </footer>
+</div>
+
+<div id="sidenav">
+    <header>Titel</header>
+    <ul>
+        <li><a href="#/myMedia">My Media</a></li>
+        <li><a href="#/newMedia">New Media</a></li>
+        <li><a href="#/settings">Settings</a></li>
+        <li><button ng-click="logout()">Log Out</button></li>
+    </ul>
 </div>

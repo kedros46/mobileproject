@@ -1,19 +1,29 @@
 <header class="text-center">
     <h1>{{headerTitle}}</h1>
-    <button class="fa fa-reorder region top right" ng-click=""></button>
+    <button class="fa fa-reorder region top right" data-ng-click="openMenu()"></button>
 </header>
 
-<div  data-ng-swipe-left="nextMedia()">
+<div  data-ng-swipe-left="nextMedia()" data-ng-swipe-right="prevMedia()" data-ng-init="loadMyMedia()">
     <div class="socialmedia">
         <img src="{{media.img}}" alt="social media logo">
-        <h2>{{media.title}}</h2>
+        <h2>{{media.name}}</h2>
 
         <div class="content">
             display feeds here
         </div>
 
-        <div class="comment">
-
+        <div class="comment" >
+            <input type="textarea" rows="10" cols="50" name="comment" placeholder="What's on our mind?" />
         </div>
     </div>
+</div>
+
+<div id="sidenav">
+    <header>Titel</header>
+    <ul>
+        <li><a href="#/myMedia">My Media</a></li>
+        <li><a href="#/newMedia">New Media</a></li>
+        <li><a href="#/settings">Settings</a></li>
+        <li><button ng-click="logout()">Log Out</button></li>
+    </ul>
 </div>

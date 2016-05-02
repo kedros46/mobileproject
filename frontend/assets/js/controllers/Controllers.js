@@ -5,49 +5,30 @@ app.controller("mainCtrl", ['$scope', '$http', function($scope){
     $scope.headerTitle = "Be Connected";
     $scope.user = {
         loggedin: false,
-        id: ""
+        id: -1,
+        email: "",
+        password: "",
+        rememberme: true
     };
-    $scope.loggedin = false;
 
-    $scope.loadMyMedia = function(){
-        $.ajax({
-            method: "GET",
-            url: "../backend/handle-request.php/mymedia",
-            data: {
-                id: $scope.user.id
+    $scope.openMenu = function(){
+        console.log("opening side menu");
+        $("#sidenav").addClass("open");
+
+        $(document).click(function() {
+            return function() {
+                $("#sidenav").removeClass("open");
+                $(document).unbind();
             }
-        }).done(function(response){
-            console.log("succes", response);
-        }).fail(function(response){
-            console.log("fail", response)
-        })
+        });
     };
 
-    $scope.loadNewMedia = function(){
-        $.ajax({
-            method: "GET",
-            url: "../backend/handle-request.php/newmedia"
-        }).done(function(response){
+    $scope.logout = function(){
+        $scope.user.loggedin = false;
+        $scope.user.id = -1;
 
-        }).fail(function(response){
-
-        })
-    };
-    $scope.saveUserToMedia = function(){
-        $.ajax({
-            method: "Post",
-            url: "../backend/handle-request.php/mymedia",
-            data:{
-                userid: $scope.user.id,
-                mediaid: 1
-            }
-        }).done(function(response){
-            //do something - Notification
-        }).fail(function(response){
-
-        })
-    };
-
+        location.href = "#/home";
+    }
 }]);
 
 app.controller("registerCtrl", function($scope){
@@ -61,10 +42,6 @@ app.controller("registerCtrl", function($scope){
         gender: "",
         birthday: new Date()
     };
-
-    //$scope.setup = function(){
-    //  var person = localStorage.getItem("form-persoon");
-    //};
 
     $scope.formprogress = {
         page: 1,
@@ -80,8 +57,6 @@ app.controller("registerCtrl", function($scope){
         goNext: function(){
             if(this.page <=2 && this.password.valid){
                 this.page +=1 ;
-
-                //localStorage.setItem("form-persoon", $scope.persoon);
         }},
         goBack: function(){if(this.page >=2) {
             this.page -=1 ;
@@ -106,102 +81,92 @@ app.controller("registerCtrl", function($scope){
             method: "POST",
             url: "../backend/handle-request.php/register",
             data: {
-                firstname: persoon.firstname,
-                lastname: persoon.lastname,
-                email: persoon.email,
-                password: persoon.password,
-                gender: persoon.gender,
-                birthday: persoon.birthday
+                firstname:  persoon.firstname,
+                lastname:   persoon.lastname,
+                email:      persoon.email,
+                password:   persoon.password,
+                gender:     persoon.gender,
+                birthday:   persoon.birthday
             }
         }).done(function successCallback(response) {
-            console.log("succes", response);
             location.href = "#/home";
 
             localStorage.setItem("email", persoon.email);
-            localStorage.setItem("password", persoon.password);
         }).fail( function errorCallback(response) {
             console.log("fail", response);
 
         });
     };
 
+    function orientationevent  (e) {
+        console.log(e);
+        console.log(e.alpha, e.beta, e.gamma);
+        //if turned upside down => cancel
+    }
+
+    window.addEventListener("deviceorientaton", orientationevent, false);
 });
-
-
-
-
 app.controller("loginCtrl", function($scope){
     $scope.headerTitle = "Login";
     $scope.showForm = false;
+
+    $scope.init = function(){
+        console.log(JSON.parse(localStorage.getItem("user")));
+
+        if(localStorage.getItem("user") != null){
+            $scope.user.email = JSON.parse(localStorage.getItem("user"))["email"];
+        }
+    };
 
     $scope.error = {
         status: false,
         message: ""
     };
 
-    $scope.user = {
-        email: "brecht@nonexist.com",
-        password: "root",
-        rememberme: true
-    };
-
-    $scope.login = function(){
-        var user = $scope.user;
-        console.log("logging in...");
+    $scope.requestlogin = function(){
+        var _user = $scope.user;
         $.ajax({
             method: "POST",
             url: "../backend/handle-request.php/requestLogin",
             data: {
-                email: user.email,
-                password: user.password
+                email: _user.email,
+                password: _user.password
             }
-        }).done(function successCallback(response) {
-            //response = response.substring(1, response.length-1);
-            console.log(response);
+        }).done(function(response) {
+            response = JSON.parse(response);
+            console.log(response[0]);
+            $scope.handleLogin(response);
 
-            if( response[1] != "]" ){
-                $scope.loggedin = true;
+        }).fail(function(response) {
+            console.log("fail", response);
+            $scope.error.status = true;
+            $scope.error.message = "Failed to connect";
+        });
+
+        $scope.handleLogin = function(data){
+            if( data[0] != null ){
+                $scope.user.id = data[0]["id"];
+                $scope.user.loggedin = true;
                 $scope.error.status = false;
                 $scope.error.message = "";
+                console.log($scope.user);
+
+                if($scope.user.rememberme){
+                    localStorage.setItem("user", $scope.user);
+                }
+
                 location.href = "#/myMedia";
-                $scope.loadMyMedia();
             }
             else {
                 $scope.error.status = true;
                 $scope.error.message = "Username or Password incorrect";
             }
-
-        }).fail( function errorCallback(response) {
-            console.log("fail", response);
-            $scope.error.status = true;
-            $scope.error.message = "Failed to connect";
-        });
+        }
     };
 });
 
-app.controller("mymedia", function($scope){
-    $scope.headerTitle = "My Media";
-    $scope.media = {
-        img: "assets/images/favicon.ico",
-        title: "Facebook"
-    };
 
 
-    $scope.nextMedia = function(){
-        console.log("swiped");
-    };
-    // API voor social media!
-});
-
-app.controller("newmedia", function($scope){
-    $scope.headerTitle = "New Media";
-
-    $scope.media = {
-        img: "assets/images/favicon.ico",
-        title: "Facebook",
-        description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut, nobis."
-    }
-});
 
 
 
