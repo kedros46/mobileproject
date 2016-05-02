@@ -8,16 +8,21 @@
     <p class="btn btn-block btn-success" ng-click="showForm = true">Login on your Account</p>
 </div>
 
-<div ng-show="showForm">
-    <form action="" method="post">
+<div ng-show="!showForm">
+    <form method="post" data-ng-submit="login()">
         <fieldset>
-            <label for="Email" class="form-group">Email</label>
-            <input type="text" id="Email" class="form-control">
+            <div class="form-group">
+                <label for="Email" >Email</label>
+                <input type="email" id="Email" class="form-control" data-ng-model="user.email">
+            </div>
+            <div class="form-group">
+                <label for="password" >password</label>
+                <input type="password" id="password" class="form-control" data-ng-model="user.password">
+            </div>
 
-            <label for="password" class="form-group">password</label>
-            <input type="password" id="password" class="form-control">
+            <i style="color:red; font-weight: bold" data-ng-show="error.status" >{{error.message}}</i>
 
-            <label><input type="checkbox" checked>Remember Me</label>
+            <div class="mcheck"><input type="checkbox" id="rememberme" ng-model="user.rememberme"> <label for="rememberme">Remember Me</label></div>
         </fieldset>
 
         <input type="submit" class="btn btn-primary btn-block" value="Log In">

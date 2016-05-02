@@ -27,24 +27,26 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
 //var_dump($page,explode('/',$_SERVER['PATH_INFO']));
-switch($page){
+switch($page) {
     case 'register':
 
-        switch($_SERVER['REQUEST_METHOD']){
+        switch ($_SERVER['REQUEST_METHOD']) {
             case 'POST':
                 // Insert new user
 
                 // Get user from $_POST
-                $person = array('name' => htmlentities($_POST['name']),'email' => htmlentities($_POST['email']),'password' => sha1($_POST['password'] . $salt));
+                $person = array('lastname' => htmlentities($_POST['lastname']), 'firstname' => htmlentities($_POST['firstname']), 'email' => htmlentities($_POST['email']),
+                    'password' => sha1($_POST['password'] . $salt), 'gender' => htmlentities($_POST['gender']), 'birthday' => htmlentities($_POST['birthday']));
 
                 try {
-                    $sql = " INSERT INTO person(name,email,password) VALUES(:name,:email,:password); ";
+                    $sql = " INSERT INTO user(id, lastname, firstname, email, password, gender, birthday) VALUES(id,:lastname,:firstname, :email,:password,:gender,:birthday); ";
                     $stmt = $db->prepare($sql);
 
-                    echo json_encode($stmt->execute(array(':name'=>$person['name'],':email'=>$person['email'],':password'=>$person['password'])));
 
-                }  catch(PDOException $e){
-                   json_encode(var_dump($e));
+                    echo json_encode($stmt->execute(array(':lastname' => $person['lastname'], ':firstname' => $person['firstname'], ':email' => $person['email'], ':password' => $person['password'], ':gender' => $person['gender'], ':birthday' => $person['birthday'])));
+
+                } catch (PDOException $e) {
+                    json_encode(var_dump($e));
                 }
 
                 break;
@@ -53,29 +55,80 @@ switch($page){
 
         break;
 
-    case 'login':
-        switch($_SERVER['REQUEST_METHOD']){
+    case 'requestLogin':
+        switch ($_SERVER['REQUEST_METHOD']) {
 
             case 'POST':
                 // User is trying to log in
-                $person = array('email' => htmlentities($_POST['email']),'password' => sha1($_POST['password'] . $salt));
+                $person = array('email' => htmlentities($_POST['email']), 'password' => sha1($_POST['password'] . $salt));
                 try {
-                    $sql = "SELECT id, name,email FROM person WHERE email = :email AND password= :password ";
+                    $sql = "SELECT id, email, password FROM user WHERE email = :email AND password= :password ";
                     $stmt = $db->prepare($sql);
 
-                    if($stmt->execute(array(':email'=>$person['email'],':password'=>$person['password'])) !== false) {
+                    if ($stmt->execute(array(':email' => $person['email'], ':password' => $person['password'])) !== false) {
                         echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
                     } else {
                         return false;
                     }
-                }  catch(PDOException $e){
+                } catch (PDOException $e) {
                     json_encode(var_dump($e));
                 }
         }
 
         break;
-}
+    case 'mymedia':
+        switch ($_SERVER['REQUEST_METHOD']) {
+            case "POST":
+                $person = array("mediaid" => htmlentities($_POST['mediaid']), 'userid' => htmlentities($_POST['userid']));
+                try {
+                    $sql = " INSERT INTO user2media(userid, mediaid) VALUES (:userid, :mediaid) ";
+                    $stmt = $db->prepare($sql);
 
+                    echo json_encode($stmt->execute(array(':userid' => $person['userid'], ':mediaid' => $person['mediaid'])));
+
+                } catch (PDOException $e) {
+                    json_encode(var_dump($e));
+                }
+
+                break;
+                break;
+            case 'GET':
+                $params = array('id' => htmlentities($_POST["id"]));
+                try {
+                    $sql = "SELECT media.* FROM media JOIN user2media on media.id = user2media.mediaid WHERE user2media.userid = :id";
+
+                    $stmt = $db->prepare($sql);
+
+                    if ($stmt->execute(array(":id" => $params["id"])) !== false) {
+                        echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+                    } else {
+                        return false;
+                    }
+                } catch (PDOException $e) {
+                    json_encode(var_dump($e));
+                }
+        }
+        break;
+    case "newmedia":
+        switch ($_SERVER['REQUEST_METHOD']) {
+            case 'GET':
+                $params = array('id' => htmlentities($_POST["id"]));
+                try {
+                    $sql = "SELECT * FROM media WHERE NOT EXISTS (SELECT * FROM user2media JOIN media on user2media.mediaid = media.id WHERE user2media.userid = :id)";
+
+                    $stmt = $db->prepare($sql);
+
+                    if ($stmt->execute(array(":id" => $params["id"])) !== false) {
+                        echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+                    } else {
+                        return false;
+                    }
+                } catch (PDOException $e) {
+                    json_encode(var_dump($e));
+                }
+        }
+        break;
+}
 /*
 if($_SERVER['REQUEST_METHOD'] == "POST"){
     echo 'Will insert new record';

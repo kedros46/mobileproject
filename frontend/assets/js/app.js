@@ -6,8 +6,6 @@
 var app = angular.module("myapp",
     ["ngAnimate", "ngRoute", "ngSanitize", "mobile-angular-ui", "mobile-angular-ui.gestures"]);
 
-//need ngTouch for swipe
-
 app.config(["$routeProvider", "$locationProvider",
 
     function($routeProvider){

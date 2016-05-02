@@ -1,15 +1,19 @@
 <header class="text-center">
     <h1>{{headerTitle}}</h1>
-    <button class="fa fa-reorder region top right"></button>
+    <button class="fa fa-reorder region top right" ng-click=""></button>
 </header>
 
-<div  ng-swipe-left="swipeLeft()">
+<div  data-ng-swipe-left="nextMedia()">
     <div class="socialmedia">
-        <img src="{{media.img}}">
+        <img src="{{media.img}}" alt="social media logo">
         <h2>{{media.title}}</h2>
 
         <div class="content">
             display feeds here
+        </div>
+
+        <div class="comment">
+
         </div>
     </div>
 </div>
