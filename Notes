@@ -1,14 +1,16 @@
 DONE
 - Registering
 - register database
-
+- login
+- receive user media
+- receive media
 
 
 TODO
-- login (database)
-- receive user media
-
-- receive media
+- html5 functionality
+  > motionsensing
+  > notification
+  > location??
 - list media detail
 - Save other media
 

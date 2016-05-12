@@ -62,7 +62,7 @@ switch($page) {
                 // User is trying to log in
                 $person = array('email' => htmlentities($_POST['email']), 'password' => sha1($_POST['password'] . $salt));
                 try {
-                    $sql = "SELECT id, email, password FROM user WHERE email = :email AND password= :password ";
+                    $sql = "SELECT * FROM user WHERE email = :email AND password= :password ";
                     $stmt = $db->prepare($sql);
 
                     if ($stmt->execute(array(':email' => $person['email'], ':password' => $person['password'])) !== false) {
@@ -124,7 +124,7 @@ switch($page) {
                 }
 
                 try {
-                    $sql = "SELECT * FROM media WHERE NOT EXISTS (SELECT * FROM user2media JOIN media on user2media.mediaid = media.id WHERE user2media.userid = :id)";
+                    $sql = "SELECT DISTINCT * FROM media WHERE media.id Not IN (SELECT user2media.mediaid FROM user2media JOIN media on user2media.mediaid = media.id WHERE user2media.userid = :id)";
                     //always returns empty...
 
                     $params = array('id' => $person_id);

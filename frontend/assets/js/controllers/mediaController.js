@@ -19,16 +19,23 @@ app.controller("mymedia", function($scope){
         console.log("swiped left");
         if($scope.allmedia.current < $scope.allmedia.arr.length-1){
             $scope.allmedia.current += 1;
-            $scope.setMedia();
         }
+        else {
+            $scope.allmedia.current = 0;
+        }
+
+        $scope.setMedia();
     };
     $scope.prevMedia = function(){
         console.log("swiped right");
         if($scope.allmedia.current > 0) {
             $scope.allmedia.current -= 1;
-            $scope.setMedia();
+        }else {
+            $scope.allmedia.current = $scope.allmedia.arr.length -1;
         }
-    };
+
+        $scope.setMedia();
+    };;
 
     $scope.setMedia = function () {
         var current = $scope.allmedia.current;
@@ -41,11 +48,17 @@ app.controller("mymedia", function($scope){
     $scope.loadMyMedia = function(){
         $.ajax({
             method: "GET",
-            url: "../backend/handle-request.php/mymedia/" + $scope.user.id
+            url: "../backend/handle-request.php/mymedia/" + localStorage.getItem("user-id")
 
         }).done(function(response){
             $scope.allmedia.arr = JSON.parse(response);
-            $scope.setMedia();
+            if($scope.allmedia.arr.length > 0){
+                $scope.setMedia();
+            }
+            else
+            {
+                location.href = "#/newMedia";
+            }
         }).fail(function(response){
             console.log("fail", response)
             $scope.media.name = "Could Not Load";
@@ -75,25 +88,33 @@ app.controller("newmedia", function($scope){
         console.log("swiped left");
         if($scope.allmedia.current < $scope.allmedia.arr.length-1){
             $scope.allmedia.current += 1;
-            $scope.setMedia();
         }
+        else {
+            $scope.allmedia.current = 0;
+        }
+
+        $scope.setMedia();
     };
     $scope.prevMedia = function(){
         console.log("swiped right");
         if($scope.allmedia.current > 0) {
             $scope.allmedia.current -= 1;
-            $scope.setMedia();
+        }else {
+            $scope.allmedia.current = $scope.allmedia.arr.length -1;
         }
+
+        $scope.setMedia();
     };
     //END
 
     $scope.setMedia = function () {
         var current = $scope.allmedia.current;
-
-        $scope.media.id = $scope.allmedia.arr[current].id;
-        $scope.media.img = $scope.allmedia.arr[current].img;
-        $scope.media.title = $scope.allmedia.arr[current].name;
-        $scope.media.description = $scope.allmedia.arr[current].description;
+        if($scope.allmedia.arr[current]) {
+            $scope.media.id = $scope.allmedia.arr[current].id;
+            $scope.media.img = $scope.allmedia.arr[current].img;
+            $scope.media.title = $scope.allmedia.arr[current].name;
+            $scope.media.description = $scope.allmedia.arr[current].description;
+        }
     };
 
     $scope.loadNewMedia = function(){
@@ -102,7 +123,7 @@ app.controller("newmedia", function($scope){
             url: "../backend/handle-request.php/newmedia/" + $scope.user.id
 
         }).done(function(response){
-            $scope.allmedia = JSON.parse(response);
+            $scope.allmedia.arr = JSON.parse(response);
 
             if($scope.allmedia.arr != null) {
                 $scope.setMedia();
@@ -112,13 +133,15 @@ app.controller("newmedia", function($scope){
         })
     };
 
+    $scope.searchkey = "";
     $scope.searchMedia = function(){
-        var word = "";
-        var media = $scope.allmedia.arr;
-        media = media.filter(function(el, index){
-            return el.contains(word);
+        console.log($scope.searchkey);
+        $scope.allmedia.arr = $scope.allmedia.arr.filter(function(el, index, arr){
+            return el.name.includes($scope.searchkey);
         });
-        $scope.allmedia.arr = media;
+
+        $scope.allmedia.current = 0;
+        $scope.setMedia();
     };
 
     $scope.saveUserToMedia = function(){
@@ -127,9 +150,12 @@ app.controller("newmedia", function($scope){
             url: "../backend/handle-request.php/mymedia",
             data:{
                 userid: $scope.user.id,
-                mediaid: 1
+                mediaid: $scope.media.id
             }
         }).done(function(response){
+
+            //reload page
+            location.reload(true);
             //do something - Notification
         }).fail(function(response){
 

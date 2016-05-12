@@ -3,10 +3,13 @@
  */
 app.controller("mainCtrl", ['$scope', '$http', function($scope){
     $scope.headerTitle = "Be Connected";
+
     $scope.user = {
         loggedin: false,
-        id: -1,
-        email: "",
+        id: localStorage.getItem("user-id"),
+        email: localStorage.getItem("user-email"),
+        firstname: localStorage.getItem("user-fname"),
+        profilepic: "https://pixabay.com/static/uploads/photo/2012/04/26/19/47/man-42934_960_720.png",
         password: "",
         rememberme: true
     };
@@ -14,13 +17,10 @@ app.controller("mainCtrl", ['$scope', '$http', function($scope){
     $scope.openMenu = function(){
         console.log("opening side menu");
         $("#sidenav").addClass("open");
+    };
 
-        $(document).click(function() {
-            return function() {
-                $("#sidenav").removeClass("open");
-                $(document).unbind();
-            }
-        });
+    $scope.closeMenu = function(){
+        $("#sidenav").removeClass("open");
     };
 
     $scope.logout = function(){
@@ -98,9 +98,27 @@ app.controller("registerCtrl", function($scope){
         });
     };
 
-    function orientationevent  (e) {
+    //listen to shake event
+    var shakeEvent = new Shake({threshold: 15});
+    shakeEvent.start();
+    window.addEventListener('shake', function(){
+        $scope.cancel();
+        location.reload(true);
+    }, false);
+
+    //stop listening
+    function stopShake(){
+        shakeEvent.stop();
+    }
+
+    //check if shake is supported or not.
+    if(!("ondevicemotion" in window)){alert("Not Supported");}
+
+    function orientationevent(e) {
         console.log(e);
         console.log(e.alpha, e.beta, e.gamma);
+
+
         //if turned upside down => cancel
     }
 
@@ -134,7 +152,6 @@ app.controller("loginCtrl", function($scope){
             }
         }).done(function(response) {
             response = JSON.parse(response);
-            console.log(response[0]);
             $scope.handleLogin(response);
 
         }).fail(function(response) {
@@ -144,15 +161,19 @@ app.controller("loginCtrl", function($scope){
         });
 
         $scope.handleLogin = function(data){
+            console.log(data);
             if( data[0] != null ){
                 $scope.user.id = data[0]["id"];
+                $scope.user.firstname = data[0]["firstname"];
                 $scope.user.loggedin = true;
                 $scope.error.status = false;
                 $scope.error.message = "";
                 console.log($scope.user);
 
                 if($scope.user.rememberme){
-                    localStorage.setItem("user", $scope.user);
+                    localStorage.setItem("user-id", $scope.user.id);
+                    localStorage.setItem("user-email", $scope.user.email);
+                    localStorage.setItem("user-fname", $scope.user.firstname);
                 }
 
                 location.href = "#/myMedia";
@@ -170,20 +191,4 @@ app.controller("loginCtrl", function($scope){
 
 
 
-//<script type="text/javascript" src="https://cdn.rawgit.com/alexgibson/shake.js/master/shake.js"></script>
-//<script>
-////listen to shake event
-//var shakeEvent = new Shake({threshold: 15});
-//shakeEvent.start();
-//window.addEventListener('shake', function(){
-//    alert("Shaked");
-//}, false);
-//
-////stop listening
-//function stopShake(){
-//    shakeEvent.stop();
-//}
-//
-////check if shake is supported or not.
-//if(!("ondevicemotion" in window)){alert("Not Supported");}
-//</script>
+

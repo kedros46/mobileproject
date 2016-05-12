@@ -4,7 +4,7 @@
 
 
 var app = angular.module("myapp",
-    ["ngAnimate", "ngRoute", "ngSanitize", "mobile-angular-ui", "mobile-angular-ui.gestures", "LocalStorageModule"]);
+    ["ngAnimate", "ngRoute", "ngSanitize", "mobile-angular-ui", "mobile-angular-ui.gestures"]);
 
 app.config(["$routeProvider", "$locationProvider",
 

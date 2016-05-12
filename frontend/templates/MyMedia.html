@@ -3,7 +3,9 @@
     <button class="fa fa-reorder region top right" data-ng-click="openMenu()"></button>
 </header>
 
-<div  data-ng-swipe-left="nextMedia()" data-ng-swipe-right="prevMedia()" data-ng-init="loadMyMedia()">
+
+<span class="fa fa-chevron-left" ></span>
+<div  data-ng-swipe-left="nextMedia()" data-ng-swipe-right="prevMedia()" class="swipeable" data-ng-init="loadMyMedia()">
     <div class="socialmedia">
         <img src="{{media.img}}" alt="social media logo">
         <h2>{{media.name}}</h2>
@@ -12,18 +14,29 @@
             display feeds here
         </div>
 
-        <div class="comment" >
-            <input type="textarea" rows="10" cols="50" name="comment" placeholder="What's on our mind?" />
+        <div class="comment">
+            <textarea rows="4" name="comment" placeholder="What's on our mind?" />
+            <input type="submit" name="sendComment" VALUE="send comment">
         </div>
     </div>
 </div>
+<span class="fa fa-chevron-right"></span>
 
-<div id="sidenav">
-    <header>Titel</header>
-    <ul>
-        <li><a href="#/myMedia">My Media</a></li>
-        <li><a href="#/newMedia">New Media</a></li>
-        <li><a href="#/settings">Settings</a></li>
-        <li><button ng-click="logout()">Log Out</button></li>
-    </ul>
+
+
+<div id="sidenav" data-ng-swipe-Right="closeMenu()">
+    <header>
+        <h3>Welcome, {{user.firstname}}</h3>
+        <img src="user.profilepic" class="center-block" alt="user profile" data-ng-show="user.profilepic">
+    </header>
+
+    <div>
+        <p class="fa fa-chevron-right" style="color: #000000"></p>
+        <div class="swipeable nav-pills btn-group-vertical navbar-nav">
+            <a class="btn btn-block btn-lg" href="#/myMedia">My Media</a>
+            <a class="btn btn-block  btn-lg" href="#/newMedia">New Media</a>
+            <a class="btn btn-block  btn-lg" href="#/settings">Settings</a>
+            <a class="btn btn-block  btn-lg" ng-click="logout()">Log Out</a>
+        </div>
+    </div>
 </div>

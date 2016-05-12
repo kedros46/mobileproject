@@ -1,13 +1,13 @@
+/*======= GENERAL  ========*/
 body{
     margin: 0;
     padding: 0 5px;
     background: url("../images/connected.jpg") no-repeat;
     background-size:  100% auto;
 }
-
-header{
-    padding: 5%;
-    margin-bottom: 10%;
+ng-view{
+    width: 100%;
+    overflow-y: scroll;
 }
 
 h1, h2, h3, p, label{
@@ -43,14 +43,8 @@ button.fa.fa-reorder{
     bottom: 15px;
 }
 
-ng-view{
-    height: 100%;
-    width: 100%;
-}
-.swipeable{
-    padding: 0 3%
 
-}
+/*swipe indicators*/
 span.fa.fa-chevron-left, .fa.fa-chevron-right{
     position: absolute;
     top: 50%;
@@ -64,9 +58,14 @@ span.fa.fa-chevron-right{
     right: 0;
 }
 
+.swipeable{
+    padding: 0 3%
+}
+
+
 .socialmedia{
     background-color: white;
-    opacity: 0.7;
+    opacity: 1;
     padding: 1%;
     border-radius: 5px;
 }
@@ -83,7 +82,7 @@ span.fa.fa-chevron-right{
 }
 .socialmedia > .content{
     border: #dddddd solid 2px;
-    opacity: 1.0;
+    opacity: 0.8;
 }
 
 .content p {
@@ -104,11 +103,50 @@ span.fa.fa-chevron-right{
     transition: ease-in 0.5s;
 }
 #sidenav.open{
-    width: 50%;
+    width: 30%;
+}
+#sidenav header * {
+    color: black;
 }
 
+textarea{
+    width: 100%;
+    padding: 5px;
+    margin-top: 5px;
+}
 
+header{
+    padding: 5%;
+}
 
+@media screen and (orientation: landscape){
+    header{
+        margin-bottom: 0%;
+        padding: 0%;
+    }
+    .socialmedia .comment{
+        display: none;
+    }
+
+    .socialmedia img{
+        width: 10%;
+        margin: 0;
+    }
+}
+
+.search{
+    background: white;
+    border: #dddddd 1px solid;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+.search > .fa.fa-search{
+    color: black;
+}
+.search > input[type="search"]{
+    border: none;
+    width: 90%;
+}
 
 
 /* ANIMATIONS*/

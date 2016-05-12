@@ -17,13 +17,14 @@
     <link rel="stylesheet" href="lib/angular-ui/dist/css/mobile-angular-ui-desktop.min.css" />
     <script type="text/javascript" src="lib/angular/angular.js" ></script>
     <script type="text/javascript" src="lib/angular/angular-animate.js" ></script>
-    <script type="text/javascript" src="lib/angular/angular-local-storage.js" ></script>
     <script type="text/javascript" src="lib/angular/angular-route.min.js" ></script>
     <script type="text/javascript" src="lib/angular/angular-sanitize.min.js"></script>
     <script type="text/javascript" src="lib/angular/angular-resource.min.js" ></script>
     <script type="text/javascript" src="lib/angular-ui/dist/js/mobile-angular-ui.min.js" ></script>
     <script type="text/javascript" src="lib/angular-ui/dist/js/mobile-angular-ui.gestures.min.js"></script>
 
+
+    <script type="text/javascript" src="https://cdn.rawgit.com/alexgibson/shake.js/master/shake.js"></script>
     <!--media API-->
     <!--<script src="assets/js/API/facebookAPI.js"></script>-->
     <!--custom-->
@@ -36,7 +37,7 @@
 </head>
 <body >
 
-<div ng-controller="mainCtrl">
+<div ng-controller="mainCtrl" ng-cloak="true">
 
     <div class="app-body">
         <ng-view></ng-view>
