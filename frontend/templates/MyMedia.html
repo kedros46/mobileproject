@@ -1,7 +1,10 @@
 <header class="text-center">
     <h1>{{headerTitle}}</h1>
-    <button class="fa fa-reorder region top right" data-ng-click="openMenu()"></button>
+    <div class="sidenav" pic="user.profilepic" name="user.firstname" logout="logout()"></div>
 </header>
+
+
+
 
 
 <span class="fa fa-chevron-left" ></span>
@@ -24,19 +27,20 @@
 
 
 
-<div id="sidenav" data-ng-swipe-Right="closeMenu()">
-    <header>
-        <h3>Welcome, {{user.firstname}}</h3>
-        <img src="user.profilepic" class="center-block" alt="user profile" data-ng-show="user.profilepic">
-    </header>
 
-    <div>
-        <p class="fa fa-chevron-right" style="color: #000000"></p>
-        <div class="swipeable nav-pills btn-group-vertical navbar-nav">
-            <a class="btn btn-block btn-lg" href="#/myMedia">My Media</a>
-            <a class="btn btn-block  btn-lg" href="#/newMedia">New Media</a>
-            <a class="btn btn-block  btn-lg" href="#/settings">Settings</a>
-            <a class="btn btn-block  btn-lg" ng-click="logout()">Log Out</a>
-        </div>
-    </div>
-</div>
+<!--<div id="sidenav" data-ng-swipe-Right="closeMenu()">-->
+    <!--<header>-->
+        <!--<h3>Welcome, {{user.firstname}}</h3>-->
+        <!--<img src="{{user.profilepic}}" class="center-block" alt="user profile" data-ng-show="user.profilepic">-->
+    <!--</header>-->
+
+    <!--<div>-->
+        <!--<p class="fa fa-chevron-right" style="color: #000000"></p>-->
+        <!--<div class="swipeable nav-pills btn-group-vertical navbar-nav">-->
+            <!--<a class="btn btn-block btn-lg" href="#/myMedia">My Media</a>-->
+            <!--<a class="btn btn-block  btn-lg" href="#/newMedia">New Media</a>-->
+            <!--<a class="btn btn-block  btn-lg" href="#/settings">Settings</a>-->
+            <!--<a class="btn btn-block  btn-lg" ng-click="logout()">Log Out</a>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->

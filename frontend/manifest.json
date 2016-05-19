@@ -1,0 +1,20 @@
+{
+  "name": "BeConnected",
+  "gcm_sender_id": "515586519809"
+}
+
+
+
+/*
+  "short_name": "BeConnected",
+  "icons": [{
+    "src": "images/icon-192x192.png",
+    "sizes": "192x192",
+    "type": "image/png"
+  }],
+  "start_url": "/index.html?homescreen=1",
+  "display": "standalone",
+
+API KEY     AIzaSyBbQOoximY2pONHECakRSnretMoJuAEVco
+ ID          515586519809
+ */

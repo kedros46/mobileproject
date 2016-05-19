@@ -129,20 +129,20 @@ app.controller("newmedia", function($scope){
                 $scope.setMedia();
             }
         }).fail(function(response){
-
+            alert("Something went wrong");
         })
     };
 
-    $scope.searchkey = "";
-    $scope.searchMedia = function(){
-        console.log($scope.searchkey);
-        $scope.allmedia.arr = $scope.allmedia.arr.filter(function(el, index, arr){
-            return el.name.includes($scope.searchkey);
-        });
-
-        $scope.allmedia.current = 0;
-        $scope.setMedia();
-    };
+    //$scope.searchkey = "";
+    //$scope.searchMedia = function(){
+    //    console.log($scope.searchkey);
+    //    $scope.allmedia.arr = $scope.allmedia.arr.filter(function(el, index, arr){!
+    //        return el.name.includes($scope.searchkey);
+    //    });
+    //
+    //    $scope.allmedia.current = 0;
+    //    $scope.setMedia();
+    //};
 
     $scope.saveUserToMedia = function(){
         $.ajax({
@@ -154,11 +154,17 @@ app.controller("newmedia", function($scope){
             }
         }).done(function(response){
 
+            var audio = new Audio("assets/sounds/Drop.mp3");
+            audio.play();
+            navigator.vibrate(100);
             //reload page
             location.reload(true);
-            //do something - Notification
-        }).fail(function(response){
 
+
+            //do something - Notification
+
+        }).fail(function(response){
+            alert("Something went wrong");
         })
     };
 });

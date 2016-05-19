@@ -2,29 +2,32 @@
     <h1>{{headerTitle}}</h1>
 </header>
 
-<div data-ng-swipe-Left="formprogress.goNext()" data-ng-swipe-Right="formprogress.goBack()" >
-    <p>swipe to continue or go back</p>
+<div data-ng-swipe-Left="formprogress.goNext()" data-ng-swipe-Right="formprogress.goBack()" data-autoscroll="true">
+    <p class="text-center">swipe to continue or go back</p>
+    <p class="text-center">shake to cancel</p>
     <span class="fa fa-chevron-left"  data-ng-hide="formprogress.page == 1"></span>
 
-    <form method="post" class="swipeable" data-ng-submit="register()">
+    <form name="register" method="post" class="swipeable" data-ng-submit="register()">
+
+        <p class="error" data-ng-hide="formprogress.valid">{{formprogress.errormsg}}</p>
         <fieldset id="page1" data-ng-show="formprogress.page == 1">
-            <label class="form-group">First name</label>
-            <input type="text" class="form-control " data-ng-model="persoon.firstname" placeholder="first name">
+            <!--<span class="error" data-ng-show="register.email.$error.email">not a valid email</span>-->
+            <label for="fname">First name</label>
+            <input type="text" id="fname" name="fname" class="form-control " data-ng-model="persoon.firstname" placeholder="first name" required>
 
-            <label class="form-group">Last name</label>
-            <input type="text" class="form-control" data-ng-model="persoon.lastname" placeholder="last name">
+            <label for="lname">Last name</label>
+            <input type="text" id="lname" name="lname" class="form-control" data-ng-model="persoon.lastname" placeholder="last name" required>
 
-            <label class="form-group">Email</label>
-            <input type="text" class="form-control" data-ng-model="persoon.email" placeholder="email">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" class="form-control" data-ng-model="persoon.email" placeholder="email" required>
         </fieldset>
 
         <fieldset id="page2" data-ng-show="formprogress.page == 2">
-            <label class="form-group">Password</label>
-            <input type="password" class="form-control" data-ng-model="persoon.password" placeholder="password">
-            <label class="form-group">Confirm Password</label>
-            <input type="password" class="form-control" data-ng-blur="formprogress.password.checkPasswords()"
-                   data-ng-model="formprogress.password.ctrlPassword" placeholder="confirm password">
-            <i style="color:red" data-ng-hide="formprogress.password.valid">Not the same password</i>
+            <label for="pass">Password</label>
+            <input type="password" id="pass" class="form-control" data-ng-model="persoon.password" placeholder="password" required>
+            <label for="confpass">Confirm Password</label>
+            <input type="password" id="confpass" class="form-control" data-ng-change="formprogress.password.checkPasswords()"
+                   data-ng-model="formprogress.password.ctrlPassword" placeholder="confirm password" required>
         </fieldset>
 
         <fieldset id="page3" data-ng-show="formprogress.page == 3">
@@ -40,12 +43,11 @@
 
             <label>Birthday</label>
             <input type="date" name="birthday" class="form-control" id="birthday" data-ng-model="persoon.birthday">
+
+            <input  class="btn btn-block btn-success" type="submit" value="Finish">
         </fieldset>
 
-        <div class="region bottom left right">
-            <input  class="btn btn-block btn-success" type="submit" ng-show="formprogress.page == 3">
-            <button class="btn btn-block btn-danger " data-ng-click="cancel()">Cancel</button>
-        </div>
+
     </form>
 
 

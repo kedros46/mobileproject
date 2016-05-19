@@ -1,13 +1,45 @@
+
+/*#swipenav span.fa{*/
+    /*position: relative;*/
+    /*color: white;*/
+    /*padding: 5px;*/
+/*}*/
+
+
+
+/*#swipenav p{*/
+    /*display: inline-block;*/
+/*}*/
+/*#swipenav p + p{*/
+    /*float: right;*/
+/*}*/
+
+
 /*======= GENERAL  ========*/
 body{
     margin: 0;
     padding: 0 5px;
+
     background: url("../images/connected.jpg") no-repeat;
     background-size:  100% auto;
-}
-ng-view{
+
     width: 100%;
+    height: auto;
     overflow-y: scroll;
+}
+
+.error{
+    font-weight: bold;
+    color: red;
+    display: block;
+}
+
+input[type=submit]{
+    margin-top: 5%;
+}
+
+.main p:nth-child(2){
+    margin-top: 20%;
 }
 
 h1, h2, h3, p, label{
@@ -16,9 +48,6 @@ h1, h2, h3, p, label{
 p, label{
     font-size: 20px;
 }
-p{
-    margin-bottom: 15%;
-}
 
 button.fa.fa-reorder{
     color: white;
@@ -26,6 +55,8 @@ button.fa.fa-reorder{
     border: none;
     padding: 5px;
 }
+
+/*this cant be efficient*/
 .region{
     position: absolute;
 }
@@ -61,6 +92,18 @@ span.fa.fa-chevron-right{
 .swipeable{
     padding: 0 3%
 }
+input.ng-valid{
+    border: 1px limegreen solid;
+}
+input.ng-invalid.ng-dirty{
+    border: 1px #b22222 solid;
+    background: #ffccbb;
+}
+button.btn-primary[disabled]{
+    background-color: grey;
+    border-color: black;
+}
+
 
 
 .socialmedia{
@@ -82,14 +125,16 @@ span.fa.fa-chevron-right{
 }
 .socialmedia > .content{
     border: #dddddd solid 2px;
+    color: lightgrey;
     opacity: 0.8;
+    height: 50%
 }
 
 .content p {
     color: black;
 }
 
-#sidenav{
+.sidenav{
     z-index: 100;
     width: 0;
     height: auto;
@@ -100,12 +145,12 @@ span.fa.fa-chevron-right{
     bottom: 0;
     right: 0;
 
-    transition: ease-in 0.5s;
+    transition: ease-out 0.2s;
 }
-#sidenav.open{
+.sidenav.open{
     width: 30%;
 }
-#sidenav header * {
+.sidenav header * {
     color: black;
 }
 
@@ -119,10 +164,11 @@ header{
     padding: 5%;
 }
 
-@media screen and (orientation: landscape){
+/*=======  Orientation Changes ========*/
+@media screen and (orientation: landscape) and (max-width: 450px) {
     header{
         margin-bottom: 0%;
-        padding: 0%;
+        padding: 5px;
     }
     .socialmedia .comment{
         display: none;
@@ -132,7 +178,14 @@ header{
         width: 10%;
         margin: 0;
     }
+
+    .portait{
+        display: none;
+    }
+
+
 }
+/* ======================= */
 
 .search{
     background: white;
@@ -149,50 +202,66 @@ header{
 }
 
 
-/* ANIMATIONS*/
-.ng-enter, .ng-leave {
-    position:absolute;
-    left:30px; right:30px;
-    transition:0.5s all ease;
-    -moz-transition:0.5s all ease;
-    -webkit-transition:0.5s all ease;
-}
 
-/* enter animation */
-.ng-enter {
-    -webkit-animation:slideInRight 0.5s both ease;
-    -moz-animation:slideInRight 0.5s both ease;
-    animation:slideInRight 0.5s both ease;
-}
+    /* ANIMATIONS*/
+    .ng-enter, .ng-leave {
+        position: absolute;
+        left: 30px;
+        right: 30px;
+        transition: 0.5s all ease;
+        -moz-transition: 0.5s all ease;
+        -webkit-transition: 0.5s all ease;
+    }
+    .ng-enter {
+        -webkit-animation: slideInRight 0.5s both ease;
+        -moz-animation: slideInRight 0.5s both ease;
+        animation: slideInRight 0.5s both ease;
+    }
+    .ng-leave {
+        -webkit-animation: slideOutLeft 0.5s both ease;
+        -moz-animation: slideOutLeft 0.5s both ease;
+        animation: slideOutLeft 0.5s both ease;
+    }
 
-/* leave animation */
-.ng-leave {
-    -webkit-animation:slideOutLeft 0.5s both ease;
-    -moz-animation:slideOutLeft 0.5s both ease;
-    animation:slideOutLeft 0.5s both ease;
-}
+    /*slide out to the left */
+    @keyframes slideOutLeft {
+        to {
+            transform: translateX(-200%);
+        }
+    }
+    @-moz-keyframes slideOutLeft {
+        to {
+            -moz-transform: translateX(-200%);
+        }
+    }
+    @-webkit-keyframes slideOutLeft {
+        to {
+            -webkit-transform: translateX(-200%);
+        }
+    }
 
-/*slide out to the left */
-@keyframes slideOutLeft {
-    to      { transform: translateX(-200%); }
-}
-@-moz-keyframes slideOutLeft {
-    to      { -moz-transform: translateX(-200%); }
-}
-@-webkit-keyframes slideOutLeft {
-    to      { -webkit-transform: translateX(-200%); }
-}
-
-/* slide in from the right */
-@keyframes slideInRight {
-    from    { transform:translateX(200%); }
-    to      { transform: translateX(0); }
-}
-@-moz-keyframes slideInRight {
-    from    { -moz-transform:translateX(200%); }
-    to      { -moz-transform: translateX(0); }
-}
-@-webkit-keyframes slideInRight {
-    from    { -webkit-transform:translateX(200%); }
-    to      { -webkit-transform: translateX(0); }
-}
+    /* slide in from the right */
+    @keyframes slideInRight {
+        from {
+            transform: translateX(200%);
+        }
+        to {
+            transform: translateX(0);
+        }
+    }
+    @-moz-keyframes slideInRight {
+        from {
+            -moz-transform: translateX(200%);
+        }
+        to {
+            -moz-transform: translateX(0);
+        }
+    }
+    @-webkit-keyframes slideInRight {
+        from {
+            -webkit-transform: translateX(200%);
+        }
+        to {
+            -webkit-transform: translateX(0);
+        }
+    }

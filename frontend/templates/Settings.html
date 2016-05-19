@@ -1,0 +1,22 @@
+<header class="text-center">
+    <h1>{{headerTitle}}</h1>
+    <div class="sidenav" name="user.firsname" pic="user.profilepic" logout="logout()"></div>
+</header>
+
+<div>
+    <h2>Profile</h2>
+    <button class="btn btn-lg btn-primary btn-block" ng-click="profile.updatePass()">Change password</button>
+    <p ng-show="profile.message">{{profile.message}}</p>
+
+    <hr>
+
+    <h2>Notifications</h2>
+    <div class="mcheck">
+        <input name="pushNotis" id="pushNotis" type="checkbox" data-ng-disabled="!settings.pushable" data-ng-model="settings.push_notifications">
+        <label for="pushNotis">Enable Notifications</label>
+    </div>
+    <button class="btn btn-primary btn-block" data-ng-disabled="!settings.push_notifications">Test Notification</button>
+
+</div>
+
+

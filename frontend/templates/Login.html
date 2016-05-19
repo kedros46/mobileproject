@@ -1,15 +1,16 @@
 <header class="text-center">
     <h1>{{headerTitle}}</h1>
 </header>
-<div <!--data-ng-init="init()"-->>
-    <div>
-        <p class="btn btn-block btn-danger">login with Google</p>
-        <p class="btn btn-block btn-primary">login with Facebook</p>
+<div  data-autoscroll="true"> <!--data-ng-init="init()"-->
+    <div style="display: none"> <!--NOT IMPLEMENTED YET-->
+        <p class="btn btn-block disabled">login with Google</p>
+        <p class="btn btn-block disabled">login with Facebook</p>
         <p class="btn btn-block btn-success" ng-click="showForm = true">Login on your Account</p>
     </div>
 
     <div ng-show="!showForm" >
         <form method="post" data-ng-submit="requestlogin()">
+            <p class="error" data-ng-show="error.status" >{{error.message}}</p>
             <fieldset>
                 <div class="form-group">
                     <label for="Email" >Email</label>
@@ -20,7 +21,6 @@
                     <input type="password" id="password" class="form-control" data-ng-model="user.password">
                 </div>
 
-                <i style="color:red; font-weight: bold" data-ng-show="error.status" >{{error.message}}</i>
 
                 <div class="mcheck"><input type="checkbox" id="rememberme" ng-model="user.rememberme"> <label for="rememberme">Remember Me</label></div>
             </fieldset>

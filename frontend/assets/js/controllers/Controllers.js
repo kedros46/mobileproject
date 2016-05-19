@@ -14,21 +14,18 @@ app.controller("mainCtrl", ['$scope', '$http', function($scope){
         rememberme: true
     };
 
-    $scope.openMenu = function(){
-        console.log("opening side menu");
-        $("#sidenav").addClass("open");
-    };
 
-    $scope.closeMenu = function(){
-        $("#sidenav").removeClass("open");
-    };
 
     $scope.logout = function(){
         $scope.user.loggedin = false;
         $scope.user.id = -1;
 
         location.href = "#/home";
-    }
+    };
+
+    navigator.serviceWorker.ready.then(function(){
+        console.log("service worker ready");
+    })
 }]);
 
 app.controller("registerCtrl", function($scope){
@@ -45,19 +42,50 @@ app.controller("registerCtrl", function($scope){
 
     $scope.formprogress = {
         page: 1,
+        valid: true,
+        errormsg: "",
         password: {
             ctrlPassword: "",
             checkPasswords: function(){
-                $scope.formprogress.password.valid =
-                    $scope.formprogress.password.ctrlPassword === $scope.persoon.password;
+                if($scope.formprogress.password.ctrlPassword !== $scope.persoon.password){
+                    $scope.formprogress.setError("Not the same password");
+                }else{
+                    $scope.formprogress.undoError();
+                }
 
-            },
-            valid: true
+            }
         },
+        setError: function(message){
+            $scope.formprogress.valid = false;
+            $scope.formprogress.errormsg = message;
+        },
+        undoError: function(){
+            $scope.formprogress.valid = true;
+            $scope.formprogress.errormsg = "";
+        },
+
         goNext: function(){
-            if(this.page <=2 && this.password.valid){
-                this.page +=1 ;
-        }},
+            var persoon= $scope.persoon;
+            if(this.page == 1){
+                if(persoon.firstname != "" && persoon.email != "" && persoon.lastname != "") {
+                    this.page += 1;
+                    this.undoError();
+                }
+                else {
+                    this.setError("Fill in required fields");
+                }
+            }
+            else if(this.page == 2){
+                if(this.valid && persoon.password != "") {
+                    this.page += 1
+                    this.undoError()
+                }
+                else{
+                    this.setError("Fill in password first!")
+                }
+            }
+
+        },
         goBack: function(){if(this.page >=2) {
             this.page -=1 ;
         }}
@@ -71,10 +99,9 @@ app.controller("registerCtrl", function($scope){
             password: "",
             gender: "",
             birthday: new Date()
-        }
+        };
+        location.href = "#/home";
     };
-
-
     $scope.register = function(){
         var persoon = $scope.persoon;
         $.ajax({
@@ -98,31 +125,28 @@ app.controller("registerCtrl", function($scope){
         });
     };
 
-    //listen to shake event
-    var shakeEvent = new Shake({threshold: 15});
-    shakeEvent.start();
-    window.addEventListener('shake', function(){
-        $scope.cancel();
-        location.reload(true);
-    }, false);
 
-    //stop listening
+    //check if shake is supported or not.
+    if(!("ondevicemotion" in window)){alert("Shake not supported");}
+    else {
+
+        //listen to shake event
+        var shakeEvent = new Shake({threshold: 15});
+        shakeEvent.start();
+        window.addEventListener('shake', function(){
+            $scope.cancel();
+            location.reload(true);
+            navigator.vibrate(100);
+            new Audio("../assets/sounds/Drop.mp3").play();
+
+        }, false);
+    }
+
     function stopShake(){
         shakeEvent.stop();
     }
 
-    //check if shake is supported or not.
-    if(!("ondevicemotion" in window)){alert("Not Supported");}
 
-    function orientationevent(e) {
-        console.log(e);
-        console.log(e.alpha, e.beta, e.gamma);
-
-
-        //if turned upside down => cancel
-    }
-
-    window.addEventListener("deviceorientaton", orientationevent, false);
 });
 app.controller("loginCtrl", function($scope){
     $scope.headerTitle = "Login";
@@ -149,13 +173,14 @@ app.controller("loginCtrl", function($scope){
             data: {
                 email: _user.email,
                 password: _user.password
-            }
+            },
+            timeout: 5000
         }).done(function(response) {
+            console.log(response);
             response = JSON.parse(response);
             $scope.handleLogin(response);
 
         }).fail(function(response) {
-            console.log("fail", response);
             $scope.error.status = true;
             $scope.error.message = "Failed to connect";
         });
@@ -184,6 +209,26 @@ app.controller("loginCtrl", function($scope){
             }
         }
     };
+});
+
+app.controller("settingsCtrl", function($scope){
+    $scope.headerTitle = "Settings";
+
+    $scope.settings = {
+        pushable: true,
+        push_notifications: false
+    };
+
+    $scope.profile = {
+        updatePass: function(){
+            //should be an ajax call
+            // out of scope
+            this.message = "out of scope"
+        },
+        message: ""
+    }
+
+
 });
 
 

@@ -24,9 +24,10 @@ app.config(["$routeProvider", "$locationProvider",
     }).when("/newMedia", {
         templateUrl: "templates/NewMedia.html",
         controller: "newmedia"
-    }).when("", {
-        templateUrl: "templates/"
-    })
-        .otherwise({redirectTo: "/home"});
+    }).when("/settings", {
+        templateUrl: "templates/settings.html",
+        controller: "settingsCtrl"
+
+    }).otherwise({redirectTo: "/home"});
 
 }]);
