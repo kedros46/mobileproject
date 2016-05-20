@@ -85,6 +85,7 @@ app.controller("registerCtrl", function($scope){
                 }
             }
 
+            new Audio("assets/sounds/Drop.mp3").play();
         },
         goBack: function(){if(this.page >=2) {
             this.page -=1 ;
@@ -101,6 +102,7 @@ app.controller("registerCtrl", function($scope){
             birthday: new Date()
         };
         location.href = "#/home";
+
     };
     $scope.register = function(){
         var persoon = $scope.persoon;
@@ -137,20 +139,16 @@ app.controller("registerCtrl", function($scope){
             $scope.cancel();
             location.reload(true);
             navigator.vibrate(100);
-            new Audio("../assets/sounds/Drop.mp3").play();
+            new Audio("assets/sounds/Drop.mp3").play();
 
         }, false);
-    }
-
-    function stopShake(){
-        shakeEvent.stop();
     }
 
 
 });
 app.controller("loginCtrl", function($scope){
     $scope.headerTitle = "Login";
-    $scope.showForm = false;
+    $scope.showForm = true;
 
     $scope.init = function(){
         console.log(JSON.parse(localStorage.getItem("user")));

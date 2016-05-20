@@ -64,6 +64,21 @@ app.controller("mymedia", function($scope){
             $scope.media.name = "Could Not Load";
         })
     };
+
+    //check if shake is supported or not.
+    if(!("ondevicemotion" in window)){alert("Shake not supported");}
+    else {
+
+        //listen to shake event
+        var shakeEvent = new Shake({threshold: 15});
+        shakeEvent.start();
+        window.addEventListener('shake', function(){
+            location.reload(true);
+            navigator.vibrate(100);
+            new Audio("assets/sounds/Drop.mp3").play();
+
+        }, false);
+    }
 });
 
 

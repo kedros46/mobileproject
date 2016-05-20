@@ -1,0 +1,17 @@
+<button class="fa fa-reorder region top right" data-ng-click="openMenu()" data-ng-show="!open"></button>
+
+<div ng-dblclick="closeMenu()" ng-swipe-right="closeMenu()" data-ng-show="open">
+    <header>
+        <h3>Welcome, {{name}}</h3>
+        <img src="{{pic}}" class="center-block portait" alt="user profile" data-ng-show="pic">
+    </header>
+
+    <div class="swipeable nav-pills navbar-nav">
+        <a class="btn btn-block btn-lg" href="#/myMedia">My Media</a>
+        <a class="btn btn-block  btn-lg" href="#/newMedia">New Media</a>
+        <a class="btn btn-block  btn-lg" href="#/settings">Settings</a>
+        <a class="btn btn-block  btn-lg" ng-click="logout()">Log Out</a>
+    </div>
+    <hr>
+    <i style="color:black">double click/swipe right to close</i>
+</div>

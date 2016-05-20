@@ -5,10 +5,10 @@
     <div style="display: none"> <!--NOT IMPLEMENTED YET-->
         <p class="btn btn-block disabled">login with Google</p>
         <p class="btn btn-block disabled">login with Facebook</p>
-        <p class="btn btn-block btn-success" ng-click="showForm = true">Login on your Account</p>
+        <p class="btn btn-block btn-success" ng-click="showForm = !showForm">Login on your Account</p>
     </div>
 
-    <div ng-show="!showForm" >
+    <div ng-show="showForm" >
         <form method="post" data-ng-submit="requestlogin()">
             <p class="error" data-ng-show="error.status" >{{error.message}}</p>
             <fieldset>
