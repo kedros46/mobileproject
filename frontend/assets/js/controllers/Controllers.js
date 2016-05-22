@@ -9,7 +9,8 @@ app.controller("mainCtrl", ['$scope', '$http', function($scope){
         id: localStorage.getItem("user-id"),
         email: localStorage.getItem("user-email"),
         firstname: localStorage.getItem("user-fname"),
-        profilepic: "https://pixabay.com/static/uploads/photo/2012/04/26/19/47/man-42934_960_720.png",
+        gender: localStorage.getItem("user-gender"),
+        profilepic: "",
         password: "",
         rememberme: true
     };
@@ -22,10 +23,6 @@ app.controller("mainCtrl", ['$scope', '$http', function($scope){
 
         location.href = "#/home";
     };
-
-    navigator.serviceWorker.ready.then(function(){
-        console.log("service worker ready");
-    })
 }]);
 
 app.controller("registerCtrl", function($scope){
@@ -36,7 +33,7 @@ app.controller("registerCtrl", function($scope){
         lastname: "",
         email: "",
         password: "",
-        gender: "",
+        gender: 1,
         birthday: new Date()
     };
 
@@ -77,14 +74,13 @@ app.controller("registerCtrl", function($scope){
             }
             else if(this.page == 2){
                 if(this.valid && persoon.password != "") {
-                    this.page += 1
+                    this.page += 1;
                     this.undoError()
                 }
                 else{
                     this.setError("Fill in password first!")
                 }
             }
-
             new Audio("assets/sounds/Drop.mp3").play();
         },
         goBack: function(){if(this.page >=2) {
@@ -104,26 +100,24 @@ app.controller("registerCtrl", function($scope){
         location.href = "#/home";
 
     };
-    $scope.register = function(){
-        var persoon = $scope.persoon;
+    $scope.registering = function(){
+
         $.ajax({
             method: "POST",
             url: "../backend/handle-request.php/register",
             data: {
-                firstname:  persoon.firstname,
-                lastname:   persoon.lastname,
-                email:      persoon.email,
-                password:   persoon.password,
-                gender:     persoon.gender,
-                birthday:   persoon.birthday
+                firstname:  $scope.persoon.firstname,
+                lastname:   $scope.persoon.lastname,
+                email:      $scope.persoon.email,
+                password:   $scope.persoon.password,
+                gender:     $scope.persoon.gender,
+                birthday:   $scope.persoon.birthday
             }
         }).done(function successCallback(response) {
             location.href = "#/home";
-
-            localStorage.setItem("email", persoon.email);
+            localStorage.setItem("email", $scope.persoon.email);
         }).fail( function errorCallback(response) {
-            console.log("fail", response);
-
+            $scope.setError("Connection failed");
         });
     };
 
@@ -146,13 +140,13 @@ app.controller("registerCtrl", function($scope){
 
 
 });
+
+
 app.controller("loginCtrl", function($scope){
     $scope.headerTitle = "Login";
     $scope.showForm = true;
 
     $scope.init = function(){
-        console.log(JSON.parse(localStorage.getItem("user")));
-
         if(localStorage.getItem("user") != null){
             $scope.user.email = JSON.parse(localStorage.getItem("user"))["email"];
         }
@@ -164,19 +158,16 @@ app.controller("loginCtrl", function($scope){
     };
 
     $scope.requestlogin = function(){
-        var _user = $scope.user;
         $.ajax({
             method: "POST",
             url: "../backend/handle-request.php/requestLogin",
             data: {
-                email: _user.email,
-                password: _user.password
+                email: $scope.user.email,
+                password: $scope.user.password
             },
-            timeout: 5000
+            timeout: 2000
         }).done(function(response) {
-            console.log(response);
-            response = JSON.parse(response);
-            $scope.handleLogin(response);
+            $scope.handleLogin(JSON.parse(response));
 
         }).fail(function(response) {
             $scope.error.status = true;
@@ -184,19 +175,20 @@ app.controller("loginCtrl", function($scope){
         });
 
         $scope.handleLogin = function(data){
-            console.log(data);
             if( data[0] != null ){
+                $scope.user.loggedin = true;
                 $scope.user.id = data[0]["id"];
                 $scope.user.firstname = data[0]["firstname"];
-                $scope.user.loggedin = true;
+                $scope.user.gender = data[0]["gender"];
+
                 $scope.error.status = false;
                 $scope.error.message = "";
-                console.log($scope.user);
 
                 if($scope.user.rememberme){
                     localStorage.setItem("user-id", $scope.user.id);
                     localStorage.setItem("user-email", $scope.user.email);
                     localStorage.setItem("user-fname", $scope.user.firstname);
+                    localStorage.setItem("user-gender", $scope.user.gender);
                 }
 
                 location.href = "#/myMedia";
@@ -213,7 +205,7 @@ app.controller("settingsCtrl", function($scope){
     $scope.headerTitle = "Settings";
 
     $scope.settings = {
-        pushable: true,
+        pushEnabled: true,
         push_notifications: false
     };
 
@@ -224,9 +216,92 @@ app.controller("settingsCtrl", function($scope){
             this.message = "out of scope"
         },
         message: ""
+    };
+
+
+    //PUSH NOTIFICATIONS ARE WAY HARDER THAN GEOLOCATION! =(
+    $scope.initialiseState = function() {
+        if (!('showNotification' in ServiceWorkerRegistration.prototype)) {
+            console.warn('Notifications aren\'t supported.');
+            return;
+        }
+
+        if (Notification.permission === 'denied') {
+            console.warn('The user has blocked notifications.');
+            return;
+        }
+
+        if (!('PushManager' in window)) {
+            console.warn('Push messaging isn\'t supported.');
+            return;
+        }
+
+        navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
+            serviceWorkerRegistration.pushManager.getSubscription()
+                .then(function(subscription) {
+                    var pushButton = document.querySelector('#btn-push');
+                    pushButton.disabled = false;
+
+                    if (!subscription) {
+                        return;
+                    }
+
+                    sendSubscriptionToServer(subscription);
+
+                    pushButton.textContent = 'Disable Push Messages';
+                    $scope.settings.pushEnabled = true;
+                })
+                .catch(function(err) {
+                    console.warn('Error during getSubscription()', err);
+                });
+        });
     }
 
+    window.addEventListener('load', function() {
+        var pushButton = document.querySelector('#btn-push');
+        pushButton.addEventListener('click', function() {
+            if ($scope.settings.pushEnabled) {
+                alert("unsubscribe not supported");
+            } else {
+                $scope.subscribe();
+            }
+        });
 
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then(initialiseState);
+        } else {
+            console.warn('Service workers aren\'t supported in this browser.');
+        }
+    });
+
+
+
+    $scope.subscribe = function() {
+        var pushButton = document.querySelector('#btn-push');
+        pushButton.disabled = true;
+
+        navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
+            serviceWorkerRegistration.pushManager.subscribe()
+                .then(function(subscription) {
+                    $scope.settings.pushEnabled = true;
+                    pushButton.textContent = 'Disable Push Messages';
+                    pushButton.disabled = false;
+
+                    return sendSubscriptionToServer(subscription);
+                })
+                .catch(function(e) {
+                    if (Notification.permission === 'denied') {
+                        console.warn('Permission for Notifications was denied');
+                        pushButton.disabled = true;
+                    } else {
+                        console.error('Unable to subscribe to push.', e);
+                        pushButton.disabled = false;
+                        pushButton.textContent = 'Enable Push Messages';
+                    }
+                });
+        });
+    }
 });
 
 

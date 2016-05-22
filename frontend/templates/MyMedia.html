@@ -3,10 +3,6 @@
     <div class="sidenav" pic="user.profilepic" name="user.firstname" logout="logout()"></div>
 </header>
 
-
-
-
-
 <span class="fa fa-chevron-left" ></span>
 <div  data-ng-swipe-left="nextMedia()" data-ng-swipe-right="prevMedia()" class="swipeable" data-ng-init="loadMyMedia()">
     <div class="socialmedia">
@@ -14,33 +10,15 @@
         <h2>{{media.name}}</h2>
 
         <div class="content">
-            display feeds here
+            <p>display feeds here</p>
+            <p>OUT of Scope</p>
+            <p>more work than the project was intended for</p>
         </div>
 
         <div class="comment portrait">
             <textarea rows="4" name="comment" placeholder="What's on our mind?" />
-            <input type="submit" name="sendComment" VALUE="send comment">
+            <input class="btn btn-primary btn-sm" type="submit" name="sendComment" value="send comment">
         </div>
     </div>
 </div>
 <span class="fa fa-chevron-right"></span>
-
-
-
-
-<!--<div id="sidenav" data-ng-swipe-Right="closeMenu()">-->
-    <!--<header>-->
-        <!--<h3>Welcome, {{user.firstname}}</h3>-->
-        <!--<img src="{{user.profilepic}}" class="center-block" alt="user profile" data-ng-show="user.profilepic">-->
-    <!--</header>-->
-
-    <!--<div>-->
-        <!--<p class="fa fa-chevron-right" style="color: #000000"></p>-->
-        <!--<div class="swipeable nav-pills btn-group-vertical navbar-nav">-->
-            <!--<a class="btn btn-block btn-lg" href="#/myMedia">My Media</a>-->
-            <!--<a class="btn btn-block  btn-lg" href="#/newMedia">New Media</a>-->
-            <!--<a class="btn btn-block  btn-lg" href="#/settings">Settings</a>-->
-            <!--<a class="btn btn-block  btn-lg" ng-click="logout()">Log Out</a>-->
-        <!--</div>-->
-    <!--</div>-->
-<!--</div>-->

@@ -6,7 +6,7 @@
 var app = angular.module("myapp",
     ["ngAnimate", "ngRoute", "ngSanitize", "mobile-angular-ui", "mobile-angular-ui.gestures"]);
 
-app.config(["$routeProvider", "$locationProvider",
+app.config(["$routeProvider",
 
     function($routeProvider){
     $routeProvider.when("/home", {

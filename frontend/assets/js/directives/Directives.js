@@ -15,7 +15,6 @@ app.directive("sidenav", function(){
 
             scope.openMenu = function(){
                 scope.open = true;
-                console.log("opening side menu", element);
                 element.addClass("open");
             };
 

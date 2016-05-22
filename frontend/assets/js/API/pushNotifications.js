@@ -30,8 +30,7 @@ function initialiseState() {
         // Do we already have a push message subscription?
         serviceWorkerRegistration.pushManager.getSubscription()
             .then(function(subscription) {
-                // Enable any UI which subscribes / unsubscribes from
-                // push messages.
+                // Enable any UI which subscribes / unsubscribes from push messages.
                 var pushButton = document.querySelector('.js-push-button');
                 pushButton.disabled = false;
 

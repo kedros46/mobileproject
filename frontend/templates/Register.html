@@ -7,7 +7,7 @@
     <p class="text-center">shake to cancel</p>
     <span class="fa fa-chevron-left"  data-ng-hide="formprogress.page == 1"></span>
 
-    <form name="register" method="post" class="swipeable" data-ng-submit="register()">
+    <form name="register" method="post" class="swipeable" data-ng-submit="registering()">
 
         <p class="error" data-ng-hide="formprogress.valid">{{formprogress.errormsg}}</p>
         <fieldset id="page1" data-ng-show="formprogress.page == 1">
@@ -33,18 +33,18 @@
         <fieldset id="page3" data-ng-show="formprogress.page == 3">
             <label>Gender</label>
             <div class="mradio">
-                <input type="radio" id="sir" name="gender" checked>
+                <input type="radio" id="sir" name="gender" value="1" checked data-ng-model="persoon.gender">
                 <label for="sir">Sir</label>
             </div>
             <div class="mradio">
-                <input type="radio" id="lady" name="gender">
+                <input type="radio" id="lady" name="gender" value="0" data-ng-model="persoon.gender">
                 <label for="lady">My lady</label>
             </div>
 
             <label>Birthday</label>
-            <input type="date" name="birthday" class="form-control" id="birthday" data-ng-model="persoon.birthday">
+            <input type="date" name="birthday" class="form-control" id="birthday" data-ng-model="persoon.birthday" >
 
-            <input  class="btn btn-block btn-success" type="submit" value="Finish">
+            <input  class="btn btn-block btn-success btn-lg" type="submit" value="Finish">
         </fieldset>
 
 

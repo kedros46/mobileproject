@@ -1,276 +1,243 @@
-
-/*#swipenav span.fa{*/
-    /*position: relative;*/
-    /*color: white;*/
-    /*padding: 5px;*/
-/*}*/
-
-
-
-/*#swipenav p{*/
-    /*display: inline-block;*/
-/*}*/
-/*#swipenav p + p{*/
-    /*float: right;*/
-/*}*/
-
-
 /*======= GENERAL  ========*/
-body{
+body {
     margin: 0;
     padding: 0 5px;
-
-    background: url("../images/connected.jpg") no-repeat;
-    background-size:  100% auto;
-
-    width: 100%;
-    height: auto;
-    overflow-y: scroll;
 }
-
-.error{
+.app {
+    height: 100%;
+    padding: 20px;
+    overflow-y: auto;
+    background: url("../images/connected.jpg") no-repeat;
+    background-size: 100% auto;
+}
+.error {
     font-weight: bold;
     color: red;
     display: block;
 }
-
-input[type=submit]{
+input[type=submit] {
     margin-top: 5%;
 }
-
-.main p:nth-child(2){
+.main > p:nth-child(2) {
     margin-top: 20%;
 }
-
-h1, h2, h3, p, label{
+h1,
+h2,
+h3,
+p,
+label {
     color: white;
 }
-p, label{
+p,
+label {
     font-size: 20px;
 }
-
-button.fa.fa-reorder{
+button.fa.fa-reorder {
     color: white;
     background-color: black;
     border: none;
     padding: 5px;
 }
-
-/*this cant be efficient*/
-.region{
+/*this cant be efficient...?*/
+.region {
     position: absolute;
 }
-.top{
-    top: 5px
+.top {
+    top: 5px;
 }
-
-.right{
+.right {
     right: 5px;
 }
-.left{
+.left {
     left: 5px;
 }
-.bottom{
+.bottom {
     bottom: 15px;
 }
-
-
 /*swipe indicators*/
-span.fa.fa-chevron-left, .fa.fa-chevron-right{
+span.fa.fa-chevron-left,
+.fa.fa-chevron-right {
     position: absolute;
     top: 50%;
-
     color: white;
 }
-span.fa.fa-chevron-left{
+span.fa.fa-chevron-left {
     left: 0;
 }
-span.fa.fa-chevron-right{
+span.fa.fa-chevron-right {
     right: 0;
 }
-
-.swipeable{
-    padding: 0 3%
+.swipeable {
+    padding: 0 3%;
 }
-input.ng-valid{
+input.ng-valid {
     border: 1px limegreen solid;
 }
-input.ng-invalid.ng-dirty{
+input.ng-invalid.ng-dirty {
     border: 1px #b22222 solid;
     background: #ffccbb;
 }
-button.btn-primary[disabled]{
+button.btn-primary[disabled] {
     background-color: grey;
     border-color: black;
 }
-
-
-
-.socialmedia{
+.socialmedia {
     background-color: white;
-    opacity: 1;
+    opacity: 0.8;
     padding: 1%;
     border-radius: 5px;
 }
-.socialmedia img{
+.socialmedia img {
     display: inline-block;
-    width: 20%;
-    height: auto;
+    width: 75px;
+    height: 75px;
     margin: 2% 0 0 5%;
 }
-.socialmedia h2{
+.socialmedia h2 {
     display: inline-block;
     color: black;
     margin-left: 5%;
 }
-.socialmedia > .content{
-    border: #dddddd solid 2px;
-    color: lightgrey;
-    opacity: 0.8;
-    height: 50%
-}
+.socialmedia > .content {
+      border: #cccccc solid 2px;
+      padding: 5px;
+      margin: 2%;
 
-.content p {
+
+  }
+.socialmedia p {
     color: black;
 }
-.sidenav{
+
+.sidenav {
     z-index: 100;
     width: 0;
     height: auto;
-
     background: white;
     position: absolute;
-    top:0;
+    top: 0;
     right: 0;
-
-
-    transition: ease-out 0.2s;
+    transition: ease-out 0.5s;
 }
-
 .sidenav header * {
     color: black;
 }
 
-textarea{
-    width: 100%;
-    padding: 5px;
-    margin-top: 5px;
+textarea {
+    display: block;
+    margin: 2%;
 }
-
-header{
+header {
     padding: 5%;
 }
-
 /*=======  Orientation Changes ========*/
 @media screen and (orientation: portrait) {
-    .sidenav.open{
+    .sidenav.open {
         bottom: 0;
-        width: 30%;
+        width: 40%;
         border-left: 1px solid grey;
         box-shadow: grey 0px 5px 50px 3px;
     }
 }
 @media screen and (orientation: landscape) and (max-width: 800px) {
-    header{
+    header {
         margin-bottom: 0%;
         padding: 5px;
     }
-
-    .socialmedia img{
-        width: 10%;
+    .socialmedia img {
+        width: 50px;
+        height: 50px;
         margin: 0;
     }
-
-    .portait{
+    .content {
+        padding: 0;
+        margin: 0;
+    }
+    .portrait {
         display: none;
     }
-
-    .sidenav.open{
+    .sidenav.open {
         left: 0;
         width: 100%;
         border-left: none;
         border-bottom: 1px solid grey;
         box-shadow: grey 0px 5px 50px 3px;
     }
-
 }
 /* ======================= */
-
-.search{
+.search {
     background: white;
     border: #dddddd 1px solid;
     border-radius: 5px;
     margin-bottom: 5px;
 }
-.search > .fa.fa-search{
-    color: black;
-}
-.search > input[type="search"]{
+.search > input[type="search"] {
     border: none;
     width: 90%;
 }
+.search > .fa.fa-search {
+    color: black;
+}
+/* ANIMATIONS*/
+.ng-enter,
+.ng-leave {
+    position: absolute;
+    left: 30px;
+    right: 30px;
+    transition: 0.5s all ease;
+    -moz-transition: 0.5s all ease;
+    -webkit-transition: 0.5s all ease;
+}
+.ng-enter {
+    -webkit-animation: slideInRight 0.5s both ease;
+    -moz-animation: slideInRight 0.5s both ease;
+    animation: slideInRight 0.5s both ease;
+}
+.ng-leave {
+    -webkit-animation: slideOutLeft 0.5s both ease;
+    -moz-animation: slideOutLeft 0.5s both ease;
+    animation: slideOutLeft 0.5s both ease;
+}
+/*slide out to the left */
+@keyframes slideOutLeft {
+    to {
+        transform: translatex(-200%);
+    }
+}
+@-moz-keyframes slideOutLeft {
+    to {
+        -moz-transform: translatex(-200%);
+    }
+}
+@-webkit-keyframes slideOutLeft {
+    to {
+        -webkit-transform: translatex(-200%);
+    }
+}
+/* slide in from the right */
+@keyframes slideInRight {
+    from {
+        transform: translatex(200%);
+    }
+    to {
+        transform: translatex(0);
+    }
+}
+@-moz-keyframes slideInRight {
+    from {
+        -moz-transform: translatex(200%);
+    }
+    to {
+        -moz-transform: translatex(0);
+    }
+}
+@-webkit-keyframes slideInRight {
+    from {
+        -webkit-transform: translatex(200%);
+    }
+    to {
+        -webkit-transform: translatex(0);
+    }
+}
 
-
-
-    /* ANIMATIONS*/
-    .ng-enter, .ng-leave {
-        position: absolute;
-        left: 30px;
-        right: 30px;
-        transition: 0.5s all ease;
-        -moz-transition: 0.5s all ease;
-        -webkit-transition: 0.5s all ease;
-    }
-    .ng-enter {
-        -webkit-animation: slideInRight 0.5s both ease;
-        -moz-animation: slideInRight 0.5s both ease;
-        animation: slideInRight 0.5s both ease;
-    }
-    .ng-leave {
-        -webkit-animation: slideOutLeft 0.5s both ease;
-        -moz-animation: slideOutLeft 0.5s both ease;
-        animation: slideOutLeft 0.5s both ease;
-    }
-
-    /*slide out to the left */
-    @keyframes slideOutLeft {
-        to {
-            transform: translateX(-200%);
-        }
-    }
-    @-moz-keyframes slideOutLeft {
-        to {
-            -moz-transform: translateX(-200%);
-        }
-    }
-    @-webkit-keyframes slideOutLeft {
-        to {
-            -webkit-transform: translateX(-200%);
-        }
-    }
-
-    /* slide in from the right */
-    @keyframes slideInRight {
-        from {
-            transform: translateX(200%);
-        }
-        to {
-            transform: translateX(0);
-        }
-    }
-    @-moz-keyframes slideInRight {
-        from {
-            -moz-transform: translateX(200%);
-        }
-        to {
-            -moz-transform: translateX(0);
-        }
-    }
-    @-webkit-keyframes slideInRight {
-        from {
-            -webkit-transform: translateX(200%);
-        }
-        to {
-            -webkit-transform: translateX(0);
-        }
-    }
+/* This beautiful CSS-File has been crafted with LESS (lesscss.org) and compiled by simpLESS (wearekiss.com/simpless) */

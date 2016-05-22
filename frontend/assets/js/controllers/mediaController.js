@@ -16,7 +16,6 @@ app.controller("mymedia", function($scope){
     };
 
     $scope.nextMedia = function(){
-        console.log("swiped left");
         if($scope.allmedia.current < $scope.allmedia.arr.length-1){
             $scope.allmedia.current += 1;
         }
@@ -27,7 +26,6 @@ app.controller("mymedia", function($scope){
         $scope.setMedia();
     };
     $scope.prevMedia = function(){
-        console.log("swiped right");
         if($scope.allmedia.current > 0) {
             $scope.allmedia.current -= 1;
         }else {
@@ -60,7 +58,6 @@ app.controller("mymedia", function($scope){
                 location.href = "#/newMedia";
             }
         }).fail(function(response){
-            console.log("fail", response)
             $scope.media.name = "Could Not Load";
         })
     };
@@ -100,7 +97,6 @@ app.controller("newmedia", function($scope){
     };
 
     $scope.nextMedia = function(){
-        console.log("swiped left");
         if($scope.allmedia.current < $scope.allmedia.arr.length-1){
             $scope.allmedia.current += 1;
         }
@@ -111,7 +107,6 @@ app.controller("newmedia", function($scope){
         $scope.setMedia();
     };
     $scope.prevMedia = function(){
-        console.log("swiped right");
         if($scope.allmedia.current > 0) {
             $scope.allmedia.current -= 1;
         }else {
@@ -148,17 +143,6 @@ app.controller("newmedia", function($scope){
         })
     };
 
-    //$scope.searchkey = "";
-    //$scope.searchMedia = function(){
-    //    console.log($scope.searchkey);
-    //    $scope.allmedia.arr = $scope.allmedia.arr.filter(function(el, index, arr){!
-    //        return el.name.includes($scope.searchkey);
-    //    });
-    //
-    //    $scope.allmedia.current = 0;
-    //    $scope.setMedia();
-    //};
-
     $scope.saveUserToMedia = function(){
         $.ajax({
             method: "Post",
@@ -168,14 +152,9 @@ app.controller("newmedia", function($scope){
                 mediaid: $scope.media.id
             }
         }).done(function(response){
-
-            var audio = new Audio("assets/sounds/Drop.mp3");
-            audio.play();
+            new Audio("assets/sounds/Drop.mp3").play();
             navigator.vibrate(100);
-            //reload page
             location.reload(true);
-
-
             //do something - Notification
 
         }).fail(function(response){
